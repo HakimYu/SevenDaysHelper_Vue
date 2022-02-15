@@ -1,15 +1,11 @@
 <template>
   <v-container>
     <AppBar title="七天网络助手"></AppBar>
-    <LoginDialog
-      :needLogin="needLogin"
-      @close="needLogin = false"
-    ></LoginDialog>
+    <LoginDialog :needLogin="needLogin" @sMessage="sMessage"></LoginDialog>
     <SMessage
-      :message="message"
-      :hasBtn="hasBtn"
-      :snackbar="sBar"
+      ref="sMsg"
       :timeout="timeout"
+      @cli="console.log('clickedsmessagebtn')"
     ></SMessage>
   </v-container>
 </template>
@@ -26,23 +22,21 @@ export default {
     SMessage,
   },
   data: () => ({
-    needLogin: true,
+    needLogin: false,
     message: null,
     hasBtn: false,
     timeout: null,
-    sBar: false,
+    snackbar: false,
   }),
   methods: {
     sMessage(msg, hasB, time) {
       this.timeout = time || null;
-      this.hasBtn = hasB || false;
-      this.message = msg;
-      this.sBar = true;
+      this.$refs.sMsg.sMessage(msg,hasB);
     },
   },
   mounted() {
     if (localStorage.getItem("token") == null) {
-      // this.needLogin = true;
+      this.needLogin = true;
     }
   },
 };

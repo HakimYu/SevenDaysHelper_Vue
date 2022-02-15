@@ -242,7 +242,12 @@ export default {
         })
           .then((response) => {
             if (response.data.status == 200) {
-              localStorage.setItem("token",response.data.data.token);
+              localStorage.setItem("token", response.data.data.token);
+              this.needLogin = false;
+              console.log(response);
+              this.$emit("sMessage", response.data.message);
+            } else {
+              this.$emit("sMessage", response.data.message);
             }
           })
           .catch(function (error) {
@@ -265,7 +270,7 @@ export default {
   },
   mounted() {
     this.$emit("sMessage","登录成功")
-  }
+  },
 };
 </script>
 

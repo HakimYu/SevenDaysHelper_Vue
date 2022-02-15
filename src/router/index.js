@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'SevenDaysHelper',
     component: SevenDaysHelper,
     meta: {
       title: '七天网络助手'
