@@ -57,7 +57,10 @@
                     class="float-right align-center align-self-center"
                     style="margin-top: -5px"
                     small
+                    v-text="sendSmsBtnText"
+                    :disabled="sendSmsBtnDisabled"
                     v-show="msgLogin"
+                    @click="sendSms"
                     color="secondary"
                     >发送验证码</v-btn
                   >
@@ -156,6 +159,9 @@
                     class="float-right align-center align-self-center"
                     style="margin-top: -5px"
                     small
+                    v-text="sendSmsBtnText"
+                    :disabled="sendSmsBtnDisabled"
+                    @click="sendSms"
                     v-show="msgLogin"
                     color="secondary"
                     >发送验证码</v-btn
@@ -211,6 +217,9 @@ export default {
     userCode: "",
     password: "",
     smsCode: "",
+    smsToken: "",
+    sendSmsBtnText: "发送验证码",
+    sendSmsBtnDisabled: false,
 
     //输入框验证规则
     rules: {
@@ -228,32 +237,107 @@ export default {
   methods: {
     login() {
       if (!this.msgLogin) {
-        axios({
-          method: "post",
-          url: this.getUrl("my", "/login"),
-          data: qs.stringify({
-            userCode: this.userCode,
-            password: Base64.encode(this.password),
-          }),
-          headers: {
-            Version: this.Version,
-          },
-          dataType: "json",
-        })
-          .then((response) => {
-            if (response.data.status == 200) {
-              localStorage.setItem("token", response.data.data.token);
-              this.needLogin = false;
-              // console.log(response);
-              this.$emit("sMessage", "登录成功");
-            } else {
-              this.$emit("sMessage", response.data.message);
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        this.pLogin();
+      } else {
+        this.sLogin();
       }
+    },
+    pLogin() {
+      axios({
+        method: "post",
+        url: this.getUrl("my", "/login"),
+        data: qs.stringify({
+          userCode: this.userCode,
+          password: Base64.encode(this.password),
+        }),
+        headers: {
+          Version: this.Version,
+        },
+        dataType: "json",
+      })
+        .then((response) => {
+          if (response.data.status == 200) {
+            localStorage.setItem("token", response.data.data.token);
+            this.needLogin = false;
+            this.$emit("sMessage", "登录成功");
+            //todo 取用户信息
+          } else {
+            this.$emit("sMessage", response.data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    sendSms() {
+      axios({
+        method: "post",
+        url: this.getUrl("my", "/login/sendsms"),
+        data: qs.stringify({
+          userCode: Base64.encode(this.userCode),
+        }),
+        headers: {
+          Version: this.Version,
+        },
+        dataType: "json",
+      })
+        .then((response) => {
+          if (response.data.status == 200) {
+            this.smsToken = response.data.data.token;
+            this.countDown(61, (lefttime) => {
+              if (lefttime > 0) {
+                this.sendSmsBtnDisabled = true;
+                this.sendSmsBtnText =
+                  "发送验证码" + "(" + String(lefttime) + ")";
+              } else {
+                this.sendSmsBtnText = "发送验证码";
+                this.sendSmsBtnDisabled = false;
+              }
+            });
+          } else {
+            this.$emit("sMessage", response.data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    sLogin() {
+      axios({
+        method: "post",
+        url: this.getUrl("my", "/login/entry"),
+        data: qs.stringify({
+          userCode: this.userCode,
+          verifyCode: this.smsCode,
+          token:this.smsToken,
+        }),
+        headers: {
+          Version: this.Version,
+        },
+        dataType: "json",
+      })
+        .then((response) => {
+          if (response.data.status == 200) {
+            localStorage.setItem("token", response.data.data.token);
+            this.needLogin = false;
+            this.$emit("sMessage", "登录成功");
+            //todo 取用户信息
+          } else {
+            this.$emit("sMessage", response.data.message);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    countDown(lefttime, callback) {
+      lefttime--;
+      if (lefttime > 0) {
+        setTimeout(() => {
+          this.countDown(lefttime, callback);
+        }, 1000);
+      }
+      callback(lefttime);
     },
     getUrl(host, path) {
       switch (host) {
@@ -268,9 +352,7 @@ export default {
       }
     },
   },
-  mounted() {
-    
-  },
+  mounted() {},
 };
 </script>
 
