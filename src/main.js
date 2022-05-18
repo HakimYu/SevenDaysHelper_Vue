@@ -5,6 +5,8 @@ import vuetify from './plugins/vuetify'
 import VueCookies from "vue-cookies"
 Vue.use(VueCookies);
 Vue.config.productionTip = false
+
+//router title setting
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
@@ -14,6 +16,5 @@ router.beforeEach((to, from, next) => {
 new Vue({
     router,
     vuetify,
-    VueCookies,
     render: h => h(App)
 }).$mount('#app')

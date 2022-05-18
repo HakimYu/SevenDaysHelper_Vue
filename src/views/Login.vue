@@ -1,96 +1,96 @@
 <template>
-<v-row>
-  <div class="d-flex-none hidden-md-and-up mx-5 mt-13">
-    <v-card-title class="d-flex justify-center text-h5" primary-title>
-      登录
-    </v-card-title>
-    <v-card-title
-      class="d-flex justify-center subtitle-1"
-      style="margin-top: -24px"
-      primary-title
-    >
-      使用您的七天网络账号
-    </v-card-title>
-    <v-card-actions>
-      <v-row class="d-flex justify-center no-gutters">
-        <v-col cols="12" sm="12">
-          <v-text-field
-            label="手机号码"
-            v-model="userCode"
-            prepend-icon="mdi-phone"
-            color="#1a73e8"
-            outlined
-          ></v-text-field>
-        </v-col>
-        <v-col v-show="!msgLogin" key="pwdf" cols="12" sm="12">
-          <form>
+  <v-row>
+    <div class="d-flex-none hidden-md-and-up mx-5 mt-13">
+      <v-card-title class="d-flex justify-center text-h5" primary-title>
+        登录
+      </v-card-title>
+      <v-card-title
+        class="d-flex justify-center subtitle-1"
+        style="margin-top: -24px"
+        primary-title
+      >
+        使用您的七天网络账号
+      </v-card-title>
+      <v-card-actions>
+        <v-row class="d-flex justify-center no-gutters">
+          <v-col cols="12" sm="12">
             <v-text-field
-              label="密码"
-              prepend-icon="mdi-lock"
+              label="手机号码"
+              v-model="userCode"
+              prepend-icon="mdi-phone"
               color="#1a73e8"
-              autocomplete="off"
-              v-model="password"
-              :append-icon="pwdEye"
-              :type="isPwd ? 'password' : 'text'"
-              @click:append="
-                pwdEye == 'mdi-eye-off'
-                  ? (pwdEye = 'mdi-eye')
-                  : (pwdEye = 'mdi-eye-off');
-                isPwd = !isPwd;
-              "
               outlined
             ></v-text-field>
-          </form>
-        </v-col>
-        <v-col v-show="msgLogin" sm="12">
-          <v-text-field
-            width="366px"
-            label="验证码"
-            v-model="smsCode"
-            prepend-icon="mdi-message-text"
-            color="#1a73e8"
-            outlined
+          </v-col>
+          <v-col v-show="!msgLogin" key="pwdf" cols="12" sm="12">
+            <form>
+              <v-text-field
+                label="密码"
+                prepend-icon="mdi-lock"
+                color="#1a73e8"
+                autocomplete="off"
+                v-model="password"
+                :append-icon="pwdEye"
+                :type="isPwd ? 'password' : 'text'"
+                @click:append="
+                  pwdEye == 'mdi-eye-off'
+                    ? (pwdEye = 'mdi-eye')
+                    : (pwdEye = 'mdi-eye-off');
+                  isPwd = !isPwd;
+                "
+                outlined
+              ></v-text-field>
+            </form>
+          </v-col>
+          <v-col v-show="msgLogin" sm="12">
+            <v-text-field
+              width="366px"
+              label="验证码"
+              v-model="smsCode"
+              prepend-icon="mdi-message-text"
+              color="#1a73e8"
+              outlined
+            >
+              <template v-slot:append-outer>
+                <v-btn
+                  class="float-right align-center align-self-center"
+                  style="margin-top: -5px"
+                  small
+                  v-text="sendSmsBtnText"
+                  :disabled="sendSmsBtnDisabled"
+                  v-show="msgLogin"
+                  @click="sendSms"
+                  color="secondary"
+                  >发送验证码</v-btn
+                >
+              </template>
+            </v-text-field>
+          </v-col>
+          <v-col cols="12" sm="9"></v-col>
+          <v-col class="mt-10 align-self-center" sm="6"
+            ><v-btn
+              style="margin-left: -15px"
+              small
+              text
+              v-html="msgLogin ? '密码登录' : '短信登录'"
+              @click="msgLogin = !msgLogin"
+              color="#1a73e8"
+              >短信登录</v-btn
+            ></v-col
           >
-            <template v-slot:append-outer>
-              <v-btn
-                class="float-right align-center align-self-center"
-                style="margin-top: -5px"
-                small
-                v-text="sendSmsBtnText"
-                :disabled="sendSmsBtnDisabled"
-                v-show="msgLogin"
-                @click="sendSms"
-                color="secondary"
-                >发送验证码</v-btn
-              >
-            </template>
-          </v-text-field>
-        </v-col>
-        <v-col cols="12" sm="9"></v-col>
-        <v-col class="mt-10 align-self-center" sm="6"
-          ><v-btn
-            style="margin-left: -15px"
-            small
-            text
-            v-html="msgLogin ? '密码登录' : '短信登录'"
-            @click="msgLogin = !msgLogin"
-            color="#1a73e8"
-            >短信登录</v-btn
-          ></v-col
-        >
-        <v-col class="mt-10" sm="6">
-          <v-btn
-            class="float-right"
-            color="#1a73e8"
-            dark
-            elevation="0"
-            @click="login()"
-            >登录</v-btn
-          >
-        </v-col>
-      </v-row>
-    </v-card-actions>
-  </div>
+          <v-col class="mt-10" sm="6">
+            <v-btn
+              class="float-right"
+              color="#1a73e8"
+              dark
+              elevation="0"
+              @click="login()"
+              >登录</v-btn
+            >
+          </v-col>
+        </v-row>
+      </v-card-actions>
+    </div>
 
     <v-card
       class="hidden-sm-and-down align-self-center"
@@ -193,7 +193,7 @@
       </v-card-actions>
     </v-card>
     <!-- CardLay -->
-</v-row>
+  </v-row>
 </template>
 
 <script>
@@ -216,7 +216,7 @@ export default {
     sendSmsBtnText: "发送验证码",
     sendSmsBtnDisabled: false,
 
-    //输入框验证规则
+    //the rules of checking the input
     rules: {
       required: (value) => !!value || "必填项",
       phone: (value) => {
@@ -230,6 +230,7 @@ export default {
     },
   }),
   methods: {
+    //login(pwd or sms)
     login() {
       if (!this.msgLogin) {
         this.pLogin();
@@ -237,6 +238,7 @@ export default {
         this.sLogin();
       }
     },
+    //pwd login
     pLogin() {
       axios({
         method: "post",
@@ -252,10 +254,9 @@ export default {
       })
         .then((response) => {
           if (response.data.status == 200) {
-            this.$cookies.set("cak_stu_token", response.data.data.token, "1m");
+            this.$cookies.set("token", response.data.data.token, "1m");
             this.$emit("loginOK");
             this.$emit("sMessage", "登录成功");
-            //todo 取用户信息
           } else {
             this.$emit("sMessage", response.data.message);
           }
@@ -264,6 +265,7 @@ export default {
           console.log(error);
         });
     },
+    //send sms and save the token
     sendSms() {
       axios({
         method: "post",
@@ -297,6 +299,7 @@ export default {
           console.log(error);
         });
     },
+    //sms login(check the sms code by using the token)
     sLogin() {
       axios({
         method: "post",
@@ -304,7 +307,7 @@ export default {
         data: qs.stringify({
           userCode: this.userCode,
           verifyCode: this.smsCode,
-          token:this.smsToken,
+          token: this.smsToken,
         }),
         headers: {
           Version: this.Version,
@@ -313,10 +316,9 @@ export default {
       })
         .then((response) => {
           if (response.data.status == 200) {
-            this.$cookies.set("cak_stu_token", response.data.data.token);
+            this.$cookies.set("token", response.data.data.token);
             this.$emit("loginOK");
             this.$emit("sMessage", "登录成功");
-            //todo 取用户信息
           } else {
             this.$emit("sMessage", response.data.message);
           }
@@ -325,6 +327,7 @@ export default {
           console.log(error);
         });
     },
+    //sms time count down
     countDown(lefttime, callback) {
       lefttime--;
       if (lefttime > 0) {
@@ -334,12 +337,11 @@ export default {
       }
       callback(lefttime);
     },
+    //get the url for apis
     getUrl(host, path) {
       switch (host) {
         case "my":
           return "https://szone-my.7net.cc" + path;
-        /*case "old":
-          return "https://szone-api.7net.cc" + path;*/
         case "score":
           return "https://szone-score.7net.cc" + path;
         default:
@@ -347,10 +349,5 @@ export default {
       }
     },
   },
-  created: function(){
-
-  }
 };
 </script>
-
-<style></style>

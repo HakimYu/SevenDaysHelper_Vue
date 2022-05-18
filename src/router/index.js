@@ -1,15 +1,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import StuHelper from '../views/CaKStudyHelper'
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
 Vue.use(VueRouter)
 const routes = [{
     path: '/',
-    name: 'SevenDaysHelper',
-    component: StuHelper,
+    name: 'Home',
+    component: Home,
     meta: {
         title: '七天网络助手'
     }
-}, ]
+},
+{
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: {
+        title: '登录'
+    }
+},
+]
 
 const router = new VueRouter({
     routes

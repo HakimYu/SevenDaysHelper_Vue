@@ -11,12 +11,15 @@
     "axios": "^0.26.0",
     "core-js": "^3.6.5",
     "js-base64": "^3.7.2",
+    "qs": "^6.10.3",
+    "regenerator-runtime": "^0.13.9",
     "vue": "^2.6.11",
     "vue-cookie": "^1.1.4",
     "vue-cookies": "^1.8.1",
     "vue-fragment": "^1.5.2",
     "vue-router": "^3.2.0",
-    "vuetify": "^2.4.0"
+    "vuetify": "^2.4.0",
+    "webpack": "^5.72.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
