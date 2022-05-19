@@ -1,6 +1,10 @@
 <template>
   <v-container>
-    <AppBar :backBtn="true" title="七天网络助手"></AppBar>
+    <AppBar
+      ref="AppBar"
+      :backBtn="true"
+      title="七天网络助手"
+    ></AppBar>
     <v-row class="d-flex justify-center">
       <v-col class="col-md-8">
       <v-card class="rounded-lg pb-1">
@@ -10,7 +14,7 @@
         </v-card-title>
         <v-divider></v-divider>
         <div class="rounded-pill mx-2 px-2" v-ripple v-for="(item, index) in examOverview" :key="index">
-          <v-list-item two-line class="my-3">
+          <v-list-item @click="$router.push({name: 'ScoreList', params: {index: index}})" two-line class="my-3">
             <v-list-item-content>
               <v-list-item-title>
                 {{ item.title }}
@@ -77,6 +81,7 @@ export default {
               this.setLoginedState(true);
             } else {
               this.$emit("sMessage", response.data.message);
+              this.$refs.AppBar.reLogin();
               this.$router.push("/login");
             }
           });
@@ -106,7 +111,12 @@ export default {
             Version: "3.1.4",
           },
         }).then((response) => {
-          this.examData = response.data.data;
+          this.examData = response.data.data.list;
+          this.$cookies.set(
+              "examInfo",
+              Base64.encode(JSON.stringify(this.examData)),
+              "1m"
+          );
           this.getExamOverview();
         });
       } catch (error) {
@@ -114,11 +124,11 @@ export default {
       }
     },
     getExamOverview() {
-      for (let i = 0; i < this.examData.list.length; i++) {
+      for (let i = 0; i < this.examData.length; i++) {
         this.examOverview.push({
-          title: i + 1 + ". " + this.examData.list[i]["examName"],
-          subtitle: this.examData.list[i]["time"],
-          fullScore: this.examData.list[i]["score"]
+          title: i + 1 + ". " + this.examData[i]["examName"],
+          subtitle: this.examData[i]["time"],
+          fullScore: this.examData[i]["score"]
         });
       }
     },

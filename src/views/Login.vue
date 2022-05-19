@@ -363,5 +363,9 @@ export default {
       }
     },
   },
+  created() {
+    if(this.$cookies.isKey("token"))
+      this.$router.push("/");
+  }
 };
 </script>

@@ -2,8 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
+import ScoreList from "@/components/ScoreList";
 Vue.use(VueRouter)
-const routes = [{
+const routes = [
+{
     path: '/',
     name: 'Home',
     component: Home,
@@ -19,6 +21,12 @@ const routes = [{
         title: '登录'
     }
 },
+{
+    path: '/scoreList/:index',
+    name: 'ScoreList',
+    component: ScoreList,
+
+}
 ]
 
 const router = new VueRouter({

@@ -6,6 +6,7 @@
     <div class="d-flex align-center">
       <v-app-bar-title>{{ title }}</v-app-bar-title>
     </div>
+    <v-btn @click="reLogin">reLogin</v-btn>
 <!--    <v-spacer></v-spacer>-->
 <!--    <v-btn text icon>-->
 <!--      <v-icon>mdi-dots-vertical</v-icon>-->
@@ -18,5 +19,13 @@ export default {
   name: "AppBar",
   data: () => ({}),
   props: ["title", "backBtn"],
+  methods: {
+    reLogin() {
+      this.$cookies.remove("token");
+      this.$cookies.remove("userInfo");
+      this.$cookies.remove("examInfo");
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
