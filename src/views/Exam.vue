@@ -1,25 +1,14 @@
 <template>
   <v-container>
-    <app-bar></app-bar>
-    <v-btn @click="$router.push('/')">back</v-btn>
-    <v-row v-for="(item) in examScore" :key="item.title">
-      <div >
-        <v-list-item three-line>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{ item.km }}
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              {{ item.cs }}
-            </v-list-item-subtitle>
-            <v-list-item-subtitle>
-              {{ item.us }}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-          <div>{{ item.myScore }}</div>
-        </v-list-item>
-      </div>
-    </v-row>
+    <AppBar :title="examName" :back-btn="true"></AppBar>
+    <v-col class="d-flex justify-center">
+        <v-data-table
+          :headers="this.tableHeaders"
+          :items="this.examScore"
+          hide-default-footer
+          class="elevation-1 col-md-8">
+        </v-data-table>
+    </v-col>
   </v-container>
 </template>
 
@@ -28,6 +17,7 @@ import axios from "axios";
 import AppBar from "@/components/AppBar";
 import {Base64} from "js-base64";
 import qs from "qs"
+
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
 export default {
@@ -37,13 +27,40 @@ export default {
   },
   data: () => ({
     examScore: [],
+    examName: "",
+    tableHeaders: [
+      {
+        text: "科目",
+        align: "left",
+        sortable: true,
+        value: "subjectName",
+      },
+      {
+        text: "班级排名",
+        align: "left",
+        sortable: true,
+        value: "classRanking",
+      },
+      {
+        text: "学校排名",
+        align: "left",
+        sortable: true,
+        value: "schoolRanking",
+      },
+      {
+        text: "成绩",
+        align: "left",
+        sortable: true,
+        value: "myScore",
+      },
+    ],
   }),
   methods: {
     getScore() {
       let token = this.$cookies.get("token");
       let examInfo = JSON.parse(Base64.decode(this.$cookies.get("examInfo")))[this.$route.params.index];
+      this.examName = examInfo.examName;
       let userInfo = JSON.parse(Base64.decode(this.$cookies.get("userInfo")));
-      console.log(userInfo);
       axios({
         method: "POST",
         url: this.getUrl("score", "/Question/Subjects"),
@@ -51,7 +68,7 @@ export default {
           "token": token,
           "Version": "3.1.4",
         },
-        data:  qs.stringify({
+        data: qs.stringify({
           "examGuid": examInfo.examGuid,
           "studentCode": examInfo.studentCode,
           "schoolGuid": userInfo.schoolGuid,
@@ -59,14 +76,14 @@ export default {
           "ruCode": examInfo.ruCode,
         }),
       }).then((response) => {
-        if(response.data.status === 200) {
-          let tmpScore = response.data.data.subjects;
-          for (let i = 0; i < tmpScore.length; ++i) {
+        if (response.data.status === 200) {
+          let subjects = response.data.data.subjects;
+          for (let i = 0; i < subjects.length; ++i) {
             this.examScore.push({
-              km: tmpScore[i].km,
-              cs: tmpScore[i].cs,
-              us: tmpScore[i].us,
-              myScore: tmpScore[i].myScore,
+              subjectName: subjects[i].km,
+              classRanking: subjects[i].cs,
+              schoolRanking: subjects[i].us,
+              myScore: subjects[i].myScore,
             })
           }
         }
@@ -85,7 +102,6 @@ export default {
   },
   created() {
     this.getScore();
-
   }
 }
 

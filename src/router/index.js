@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
-import ScoreList from "@/components/ScoreList";
+import Exam from "@/views/Exam.vue";
+
 Vue.use(VueRouter)
 const routes = [
 {
@@ -22,10 +23,12 @@ const routes = [
     }
 },
 {
-    path: '/scoreList/:index',
-    name: 'ScoreList',
-    component: ScoreList,
-
+    path: '/exam/:index',
+    name: 'Exam',
+    component: Exam,
+    props: {
+        index: Number
+    },
 }
 ]
 

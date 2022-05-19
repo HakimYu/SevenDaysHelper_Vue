@@ -1,10 +1,5 @@
 <template>
   <v-container>
-    <AppBar
-      ref="AppBar"
-      :backBtn="true"
-      title="七天网络助手"
-    ></AppBar>
     <v-row class="d-flex justify-center">
       <v-col class="col-md-8">
       <v-card class="rounded-lg pb-1">
@@ -13,8 +8,8 @@
           }}
         </v-card-title>
         <v-divider></v-divider>
-        <div class="rounded-pill mx-2 px-2" v-ripple v-for="(item, index) in examOverview" :key="index">
-          <v-list-item @click="$router.push({name: 'ScoreList', params: {index: index}})" two-line class="my-3">
+        <div class="rounded-pill mx-2 px-2" v-ripple @click="goToExamPage(index)" v-for="(item, index) in examOverview" :key="index">
+          <v-list-item two-line class="my-3">
             <v-list-item-content>
               <v-list-item-title>
                 {{ item.title }}
@@ -33,7 +28,6 @@
 </template>
 
 <script>
-import AppBar from "./AppBar.vue";
 import {Base64} from 'js-base64'
 import axios from "axios";
 
@@ -41,9 +35,6 @@ axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
 export default {
   name: "ExamList",
-  components: {
-    AppBar,
-  },
   data: () => ({
     userInfo: {},
     examData: {},
@@ -58,6 +49,14 @@ export default {
   methods: {
     setLoginedState(state) {
       this.$emit("update:logined", state);
+    },
+    goToExamPage(index) {
+      this.$router.push({
+        name: "Exam",
+        params: {
+          index: index,
+        },
+      });
     },
     getUserInfo() {
       if (this.$cookies.isKey("token")) {

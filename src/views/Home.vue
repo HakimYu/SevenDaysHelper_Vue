@@ -2,12 +2,12 @@
   <v-container>
     <AppBar title="七天网络助手"></AppBar>
     <ExamList v-show="logined" :logined.sync="logined"></ExamList>
-    <v-skeleton-loader
-        v-if="!logined"
-        class="align-center"
-        width="600px"
-        type="list-item-two-line"
-    ></v-skeleton-loader>
+<!--    <v-skeleton-loader-->
+<!--        v-if="!logined"-->
+<!--        class="align-center"-->
+<!--        width="600px"-->
+<!--        type="list-item-two-line"-->
+<!--    ></v-skeleton-loader>-->
   </v-container>
 </template>
 

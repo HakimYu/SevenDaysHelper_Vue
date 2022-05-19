@@ -6,21 +6,54 @@
     <div class="d-flex align-center">
       <v-app-bar-title>{{ title }}</v-app-bar-title>
     </div>
-    <v-btn @click="reLogin">reLogin</v-btn>
-<!--    <v-spacer></v-spacer>-->
-<!--    <v-btn text icon>-->
-<!--      <v-icon>mdi-dots-vertical</v-icon>-->
-<!--    </v-btn>-->
+    <v-spacer></v-spacer>
+    <v-menu
+        bottom
+        left
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+            dark
+            icon
+            v-bind="attrs"
+            v-on="on"
+        >
+          <v-btn text icon v-bind="attrs" @="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+            v-for="(item, i) in menuItems"
+            :key="i"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
 <script>
 export default {
   name: "AppBar",
-  data: () => ({}),
+  data: () => ({
+    menuItems: [
+      {
+        title: "退出登录",
+        icon: "mdi-logout",
+        action: "logout",
+      },
+    ],
+  }),
   props: ["title", "backBtn"],
   methods: {
-    reLogin() {
+    //logout
+    logout() {
       this.$cookies.remove("token");
       this.$cookies.remove("userInfo");
       this.$cookies.remove("examInfo");
