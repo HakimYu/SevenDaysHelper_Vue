@@ -6,10 +6,10 @@
     <div class="d-flex align-center">
       <v-app-bar-title>{{ title }}</v-app-bar-title>
     </div>
-    <v-spacer></v-spacer>
-    <!-- <v-btn text icon>
-      <v-icon>mdi-dots-vertical</v-icon>
-    </v-btn> -->
+<!--    <v-spacer></v-spacer>-->
+<!--    <v-btn text icon>-->
+<!--      <v-icon>mdi-dots-vertical</v-icon>-->
+<!--    </v-btn>-->
   </v-app-bar>
 </template>
 
