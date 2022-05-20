@@ -58,7 +58,7 @@ export default {
         },
       });
     },
-    getUserInfo() {
+    getUserInfo(callback) {
       if (this.$cookies.isKey("token")) {
         //has token
         try {
@@ -78,10 +78,10 @@ export default {
               );
               this.userInfo = response.data.data;
               this.setLoginedState(true);
+              callback();
             } else {
               this.$emit("sMessage", response.data.message);
-              this.$refs.AppBar.reLogin();
-              this.$router.push("/login");
+              this.$emit("invalidToken");
             }
           });
         } catch (error) {
@@ -110,13 +110,15 @@ export default {
             Version: "3.1.4",
           },
         }).then((response) => {
-          this.examData = response.data.data.list;
-          this.$cookies.set(
-              "examInfo",
-              Base64.encode(JSON.stringify(this.examData)),
-              "1m"
-          );
-          this.getExamOverview();
+          if (response.data.status === 200) {
+            this.examData = response.data.data.list;
+            this.$cookies.set(
+                "examInfo",
+                Base64.encode(JSON.stringify(this.examData)),
+                "1m"
+            );
+            this.getExamOverview();
+          }
         });
       } catch (error) {
         console.log(error);
@@ -130,6 +132,7 @@ export default {
           fullScore: this.examData[i]["score"]
         });
       }
+      this.$emit("loaded");
     },
     getUrl(host, path) {
       switch (host) {
@@ -146,8 +149,7 @@ export default {
     if (!this.$cookies.isKey("token")) {
       this.$router.push("/login");
     }
-    this.getUserInfo();
-    this.getExams();
+    this.getUserInfo(this.getExams);
   },
 };
 </script>

@@ -25,8 +25,9 @@
       </template>
       <v-list>
         <v-list-item
-            v-for="(item, i) in menuItems"
-            :key="i"
+          v-for="(item, i) in menuItems"
+          :key="i"
+          @click="item.action"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
