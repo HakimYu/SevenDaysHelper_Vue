@@ -2,26 +2,24 @@
   <v-container>
     <v-row class="d-flex justify-center">
       <v-col class="col-md-8">
-      <v-card class="rounded-lg pb-1">
-        <v-card-title>{{
-            "你好，" + this.userInfo.studentName + ":"
-          }}
-        </v-card-title>
-        <v-divider></v-divider>
-        <div class="rounded-pill mx-2 px-2" v-ripple @click="goToExamPage(index)" v-for="(item, index) in examOverview" :key="index">
-          <v-list-item two-line class="my-3">
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ item.title }}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ item.subtitle }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <div class="d-flex float-right justify-center text-h5">{{ item.fullScore }}</div>
-          </v-list-item>
-        </div>
-      </v-card>
+        <v-card class="rounded-lg pb-1">
+          <v-card-title>{{ "你好，" + this.userInfo.studentName + ":" }}</v-card-title>
+          <v-divider></v-divider>
+          <div class="rounded-pill mx-2 px-2" v-ripple @click="goToExamPage(index)"
+               v-for="(item, index) in examOverview" :key="index">
+            <v-list-item two-line class="my-3">
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ item.title }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ item.subtitle }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <div class="d-flex float-right justify-center text-h5">{{ item.fullScore }}</div>
+            </v-list-item>
+          </div>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
