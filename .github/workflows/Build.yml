@@ -29,5 +29,3 @@ jobs:
       run: pnpm install
     - name: Build
       run: pnpm run build --if-present
-    - name: Test
-      run: npm test
