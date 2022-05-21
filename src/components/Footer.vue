@@ -15,7 +15,7 @@
           href="https://beian.miit.gov.cn/"
           rel="noopener"
           target="_blank"
-          >无ICP备114514号</a
+          >赣ICP备2022001931号</a
         ></v-card-text
       >
     </v-card>
