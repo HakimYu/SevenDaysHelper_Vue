@@ -27,7 +27,7 @@
         <v-list-item
           v-for="(item, i) in menuItems"
           :key="i"
-          @click="item.action"
+          @click=item.action
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -47,7 +47,7 @@ export default {
       {
         title: "退出登录",
         icon: "mdi-logout",
-        action: "logout",
+        action: this.logout(),
       },
     ],
   }),

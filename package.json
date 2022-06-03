@@ -18,8 +18,7 @@
     "vue-cookies": "^1.8.1",
     "vue-fragment": "^1.5.2",
     "vue-router": "^3.2.0",
-    "vuetify": "^2.4.0",
-    "webpack": "^5.72.1"
+    "vuetify": "^2.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -33,7 +32,8 @@
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "^2.4.5",
     "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
+    "vuetify-loader": "^1.7.0",
+    "webpack": "^4.0.0"
   },
   "eslintConfig": {
     "root": true,

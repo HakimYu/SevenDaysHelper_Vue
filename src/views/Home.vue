@@ -3,12 +3,12 @@
     <AppBar ref="AppBar" title="七天网络助手"></AppBar>
     <ExamList
       @loaded="loaded = true"
+      @loading="loaded = false"
+      v-show="loaded"
       @invalidToken="$refs.AppBar.logout()"
-      v-show="logined"
-      :logined.sync="logined"
     ></ExamList>
     <v-skeleton-loader
-      v-if="!loaded"
+      v-show="!loaded"
       class="align-center"
       width="600px"
       type="list-item-two-line"
@@ -33,5 +33,8 @@ export default {
     snackbar: false,
   }),
   methods: {},
+  created() {
+    if (this.$cookies.isKey("token") == false) this.$router.push("/login");
+  }
 };
 </script>

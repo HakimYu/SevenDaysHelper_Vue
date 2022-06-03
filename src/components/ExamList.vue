@@ -3,12 +3,16 @@
     <v-row class="d-flex justify-center">
       <v-col class="col-md-8">
       <v-card class="rounded-lg pb-1">
+        <v-btn icon @click="refresh">
+          <v-icon>mdi-refresh</v-icon>
+        </v-btn>
         <v-card-title>{{
             "你好，" + this.userInfo.studentName + ":"
           }}
         </v-card-title>
         <v-divider></v-divider>
-        <div class="rounded-pill mx-2 px-2" v-ripple @click="goToExamPage(index)" v-for="(item, index) in examOverview" :key="index">
+        <div class="rounded-pill mx-2 px-2" v-ripple @click="goToExamPage(index)" v-for="(item, index) in examOverview"
+             :key="index">
           <v-list-item two-line class="my-3">
             <v-list-item-content>
               <v-list-item-title>
@@ -30,6 +34,7 @@
 <script>
 import {Base64} from 'js-base64'
 import axios from "axios";
+import { Tools } from "@/plugins/tools";
 
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
@@ -39,17 +44,12 @@ export default {
     userInfo: {},
     examData: {},
     examOverview: [],
+    // unClaimCount: 0,
+    rows: 114514,
+    startIndex: 0,
   }),
-  props: {
-    logined: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: {},
   methods: {
-    setLoginedState(state) {
-      this.$emit("update:logined", state);
-    },
     goToExamPage(index) {
       this.$router.push({
         name: "Exam",
@@ -59,51 +59,46 @@ export default {
       });
     },
     getUserInfo(callback) {
-      if (this.$cookies.isKey("token")) {
-        //has token
-        try {
-          axios({
-            method: "GET",
-            url: this.getUrl("my", "/userInfo/GetUserInfo"),
-            headers: {
-              token: this.$cookies.get("token"),
-              Version: "3.1.4",
-            },
-          }).then((response) => {
-            if (response.data.status === 200) {
-              this.$cookies.set(
-                  "userInfo",
-                  Base64.encode(JSON.stringify(response.data.data)),
-                  "1m"
-              );
-              this.userInfo = response.data.data;
-              this.setLoginedState(true);
-              callback();
-            } else {
-              this.$emit("sMessage", response.data.message);
-              this.$emit("invalidToken");
-            }
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        //no token(need login)
-        this.$router.push("/login");
+      if (!this.$cookies.isKey("token")) this.$router.push("/login");
+      try {
+        axios({
+          method: "GET",
+          url: Tools.getUrl("my", "/userInfo/GetUserInfo"),
+          headers: {
+            token: this.$cookies.get("token"),
+            Version: "3.1.4",
+          },
+        }).then((response) => {
+          if (response.data.status === 200) {
+            sessionStorage.setItem(
+                "userInfo",
+                Base64.encode(JSON.stringify(response.data.data)),
+            );
+            this.userInfo = response.data.data;
+
+            callback();
+          } else {
+            this.$emit("sMessage", response.data.message);
+            this.$emit("invalidToken");
+          }
+        });
+      } catch (error) {
+        console.log(error);
       }
     },
     getExams() {
-      let userInfo = JSON.parse(Base64.decode(this.$cookies.get("userInfo")));
+      let userInfo = this.userInfo;
       let token = this.$cookies.get("token");
       try {
         axios({
           method: "GET",
-          url: this.getUrl("score", "/exam/getClaimExams"),
+          url: Tools.getUrl("score", "/exam/getClaimExams"),
           params: {
-            startIndex: 0,
+            startIndex: this.startIndex,
             studentName: userInfo.studentName,
             schoolGuid: userInfo.schoolGuid,
             grade: userInfo.grade,
+            rows: this.rows,
           },
           headers: {
             token: token,
@@ -111,11 +106,11 @@ export default {
           },
         }).then((response) => {
           if (response.data.status === 200) {
-            this.examData = response.data.data.list;
-            this.$cookies.set(
-                "examInfo",
+            let examData = response.data.data.list;
+            this.examData = examData;
+            sessionStorage.setItem(
+                "examData",
                 Base64.encode(JSON.stringify(this.examData)),
-                "1m"
             );
             this.getExamOverview();
           }
@@ -125,31 +120,90 @@ export default {
       }
     },
     getExamOverview() {
+      let tmpExamOverView = [];
       for (let i = 0; i < this.examData.length; i++) {
-        this.examOverview.push({
+        tmpExamOverView.push({
           title: i + 1 + ". " + this.examData[i]["examName"],
           subtitle: this.examData[i]["time"],
           fullScore: this.examData[i]["score"]
         });
       }
+      this.examOverview = tmpExamOverView;
       this.$emit("loaded");
+
     },
-    getUrl(host, path) {
-      switch (host) {
-        case "my":
-          return "https://szone-my.7net.cc" + path;
-        case "score":
-          return "https://szone-score.7net.cc" + path;
-        default:
-          break;
-      }
+    refresh() {
+      this.$emit("loading");
+      this.getUserInfo(this.getExams);
     },
+    // getUnClaimExamCount() {
+    //   let token = this.$cookies.get("token");
+    //   let userInfo = JSON.parse(Base64.decode(this.$cookies.get("userInfo")));
+    //   axios({
+    //     method: "GET",
+    //     url: this.getUrl("score", "/exam/getExamCount"),
+    //     headers: {
+    //       Version: "3.1.4",
+    //       token: token,
+    //     },
+    //     params: {
+    //       studentName: userInfo.studentName,
+    //       schoolGuid: userInfo.schoolGuid,
+    //     },
+    //   }).then((response) => {
+    //     if (response.data.status !== 200){
+    //       Tools.handleError(response.data.message);
+    //     }else if (response.data.data.unClaimCount > 0) {
+    //       let unClaimCount = response.data.data.unClaimCount;
+    //       this.unClaimCount = unClaimCount;
+    //       this.getUnClaimExams(userInfo, token);
+    //     }
+    //
+    //   })
+    // },
+    // getUnClaimExams(userInfo, token) {
+    //   axios({
+    //     method: "GET",
+    //     url: Tools.getUrl("score", "/exam/getUnClaimExams"),
+    //     params: {
+    //       studentName: userInfo.studentName,
+    //       schoolGuid: userInfo.schoolGuid,
+    //     },
+    //     headers: {
+    //       Version: "3.1.4",
+    //       token: token,
+    //     }
+    //   }).then((response) => {
+    //     if (response.data.status != 200){
+    //       Tools.handleError(response.data.message);
+    //     } else{
+    //       let unClaimExams = response.data.data;
+    //       let unClaimExamsList = [];
+    //       for(let i = 0; i < unClaimExams.length; ++i) {
+    //         unClaimExamsList.push({
+    //           examGuid: unClaimExams[i].examGuid,
+    //
+    //         })
+    //       }
+    //     }
+    //   })
+    // },
   },
-  mounted() {
+  created() {
     if (!this.$cookies.isKey("token")) {
       this.$router.push("/login");
     }
-    this.getUserInfo(this.getExams);
+
+    if (
+      sessionStorage.getItem("userInfo") != null
+      &&
+        sessionStorage.getItem("examData") != null
+    ) {
+      this.userInfo = JSON.parse(Base64.decode(sessionStorage.getItem("userInfo")));
+      this.examData = JSON.parse(Base64.decode(sessionStorage.getItem("examData")));
+      this.getExamOverview();
+      this.$emit("loaded");
+    } else{this.refresh();}
   },
 };
 </script>

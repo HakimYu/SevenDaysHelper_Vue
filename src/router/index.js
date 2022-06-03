@@ -3,9 +3,21 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Exam from "@/views/Exam.vue";
+import Error from "@/views/Error.vue";
+import ExamDetail from "@/components/ExamDetail";
 
 Vue.use(VueRouter)
 const routes = [
+{
+    path: '/exam/:index/:subject',
+    name: 'ExamDetail',
+    component: ExamDetail,
+    props: {
+        index: Number,
+        subject: String,
+        subjectInfo: Object,
+    }
+},
 {
     path: '/',
     name: 'Home',
@@ -28,6 +40,14 @@ const routes = [
     component: Exam,
     props: {
         index: Number
+    },
+},
+{
+    path: '/error/:error',
+    name: 'Error',
+    component: Error,
+    props: {
+        error: String
     },
 }
 ]

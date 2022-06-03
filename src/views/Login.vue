@@ -209,6 +209,7 @@
 <script>
 import axios from "axios";
 import qs from "qs";
+import { Tools } from "@/plugins/tools";
 
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
@@ -253,7 +254,7 @@ export default {
     pLogin() {
       axios({
         method: "post",
-        url: this.getUrl("my", "/login"),
+        url: Tools.getUrl("my", "/login"),
         data: qs.stringify({
           userCode: this.userCode,
           password: Base64.encode(this.password),
@@ -281,7 +282,7 @@ export default {
     sendSms() {
       axios({
         method: "post",
-        url: this.getUrl("my", "/login/sendsms"),
+        url: Tools.getUrl("my", "/login/sendsms"),
         data: qs.stringify({
           userCode: Base64.encode(this.userCode),
         }),
@@ -316,7 +317,7 @@ export default {
     sLogin() {
       axios({
         method: "post",
-        url: this.getUrl("my", "/login/entry"),
+        url: Tools.getUrl("my", "/login/entry"),
         data: qs.stringify({
           userCode: this.userCode,
           verifyCode: this.smsCode,
@@ -352,16 +353,6 @@ export default {
       callback(lefttime);
     },
     //get the url for apis
-    getUrl(host, path) {
-      switch (host) {
-        case "my":
-          return "https://szone-my.7net.cc" + path;
-        case "score":
-          return "https://szone-score.7net.cc" + path;
-        default:
-          break;
-      }
-    },
   },
   created() {
     if(this.$cookies.isKey("token"))
