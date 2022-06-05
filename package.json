@@ -16,6 +16,7 @@
     "vue": "^2.6.11",
     "vue-cookie": "^1.1.4",
     "vue-cookies": "^1.8.1",
+    "vue-cool-lightbox": "^2.7.4",
     "vue-fragment": "^1.5.2",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0"
@@ -33,7 +34,7 @@
     "vue-cli-plugin-vuetify": "^2.4.5",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.7.0",
-    "webpack": "^4.0.0"
+    "webpack": "^4.36.0"
   },
   "eslintConfig": {
     "root": true,

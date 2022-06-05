@@ -34,7 +34,7 @@
 <script>
 import {Base64} from 'js-base64'
 import axios from "axios";
-import { Tools } from "@/plugins/tools";
+import {Tools} from "@/plugins/tools";
 
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
@@ -106,8 +106,7 @@ export default {
           },
         }).then((response) => {
           if (response.data.status === 200) {
-            let examData = response.data.data.list;
-            this.examData = examData;
+            this.examData = response.data.data.list;
             sessionStorage.setItem(
                 "examData",
                 Base64.encode(JSON.stringify(this.examData)),

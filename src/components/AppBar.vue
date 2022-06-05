@@ -1,7 +1,13 @@
 <template>
   <v-app-bar app color="primary" dark hide-on-scroll>
-    <v-app-bar-nav-icon v-if="backBtn" @click="$router.push({ name: 'Home' })">
+    <v-app-bar-nav-icon v-if="backBtn" @click="$router.go(-1)">
       <v-icon>mdi-arrow-left</v-icon>
+    </v-app-bar-nav-icon>
+    <v-app-bar-nav-icon
+      v-if="homeBtn"
+      @click="$router.push({name: 'Home'})"
+    >
+      <v-icon>mdi-home</v-icon>
     </v-app-bar-nav-icon>
     <div class="d-flex align-center">
       <v-app-bar-title>{{ title }}</v-app-bar-title>
@@ -27,7 +33,7 @@
         <v-list-item
           v-for="(item, i) in menuItems"
           :key="i"
-          @click=item.action
+          @click="item.action"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -47,11 +53,11 @@ export default {
       {
         title: "退出登录",
         icon: "mdi-logout",
-        action: this.logout(),
+        action: "logout",
       },
     ],
   }),
-  props: ["title", "backBtn"],
+  props: ["title", "backBtn", "homeBtn"],
   methods: {
     //logout
     logout() {

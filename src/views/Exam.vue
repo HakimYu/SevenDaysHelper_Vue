@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <AppBar :title="examName" :back-btn="true"></AppBar>
+    <AppBar :title="examName" :homeBtn="true" :back-btn="true"></AppBar>
     <v-col class="d-flex justify-center">
         <v-data-table
           :headers="this.tableHeaders"
           :items="this.examScore"
           hide-default-footer
           class="elevation-1 col-md-8"
-          @click:row="test">
+          @click:row="goToDetail">
         </v-data-table>
     </v-col>
   </v-container>
@@ -30,6 +30,8 @@ export default {
   data: () => ({
     examScore: [],
     examName: "",
+    scoreStatus: 1,
+    subjects: [],
     tableHeaders: [
       {
         text: "科目",
@@ -58,21 +60,43 @@ export default {
     ],
   }),
   methods: {
-    test() {
-      alert("l");
+    goToDetail(rowInfo, tableInfo) {
+      if (tableInfo.index === 0) return;
+      let examInfo = JSON.parse(Base64.decode(sessionStorage.getItem("examData")))[this.$route.params.index];
+      let userInfo = JSON.parse(Base64.decode(sessionStorage.getItem("userInfo")));
+      let subjects = this.subjects[tableInfo.index];
+      let subjectName = rowInfo.subjectName;
+      let subjectIndex = tableInfo.index;
+      sessionStorage.setItem("subjectInfo",
+        Base64.encode(JSON.stringify({
+          index: Number(this.$route.params.index),
+          subject: String(subjectName),
+          "subjectIndex": subjectIndex,
+          "THs": subjects.question.THs,
+          "answerCardInfo": {
+          "asiresponse": subjects.question.asiresponse,
+          "studentName": userInfo.studentName,
+          "scoreStatus": this.scoreStatus,
+          "examType": examInfo.examType,
+          "examGuid": examInfo.examGuid,
+          "schoolGuid": userInfo.schoolGuid,
+          "ruCode": examInfo.ruCode,
+          }
+        }))
+      );
+      this.$router.push({
+        name: "ExamDetail",
+        params: {
+          index: Number(this.$route.params.index),
+          subject: String(subjectName),
+        }
+      });
     },
-    // goToDetail() {
-    //   this.$router.push({
-    //     name: "ExamDetail",
-    //     params:{
-    //       index: this.$route.params.index,
-    //     }
-    //   })
-    // },
     getScore() {
       let token = this.$cookies.get("token");
       let examInfo = JSON.parse(Base64.decode(sessionStorage.getItem("examData")))[this.$route.params.index];
       this.examName = examInfo.examName;
+
       let userInfo = JSON.parse(Base64.decode(sessionStorage.getItem("userInfo")));
       axios({
         method: "POST",
@@ -89,9 +113,11 @@ export default {
           "ruCode": examInfo.ruCode,
         }),
       }).then((response) => {
-        if (response.data.status != 200) Tools.handleError(response.data.message)
+        if (response.data.status !== 200) Tools.handleError(response.data.message)
         else {
           let subjects = response.data.data.subjects;
+          this.scoreStatus = response.data.data.scoreStatus;
+          this.subjects = subjects;
           for (let i = 0; i < subjects.length; ++i) {
             this.examScore.push({
               subjectName: subjects[i].km,
