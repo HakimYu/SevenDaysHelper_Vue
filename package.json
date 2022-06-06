@@ -13,10 +13,10 @@
     "js-base64": "^3.7.2",
     "qs": "^6.10.3",
     "regenerator-runtime": "^0.13.9",
+    "v-viewer": "^1.6.4",
     "vue": "^2.6.11",
     "vue-cookie": "^1.1.4",
     "vue-cookies": "^1.8.1",
-    "vue-cool-lightbox": "^2.7.4",
     "vue-fragment": "^1.5.2",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0"

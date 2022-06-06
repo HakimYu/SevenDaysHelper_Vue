@@ -5,6 +5,7 @@
         <v-data-table
           :headers="this.tableHeaders"
           :items="this.examScore"
+          mobile-breakpoint="0"
           hide-default-footer
           class="elevation-1 col-md-8"
           @click:row="goToDetail">

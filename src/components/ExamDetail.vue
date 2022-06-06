@@ -2,21 +2,27 @@
   <v-container>
     <AppBar :back-btn="true" :home-btn="true" :title="$route.params.subject"></AppBar>
     <div v-for="(item, index) in answerCardUrl" :key="index">
-      <v-img :src="item"></v-img>
+      <v-img
+        lazy-src="https://img.wang.232232.xyz/img/2022/06/06/Snipaste_2022-06-06_22-07-57.png"
+        :src="item"
+      >
+      </v-img>
     </div>
     <v-data-table
       :headers="tableHeaders"
       :items="THs"
+      mobile-breakpoint="0"
       class="elevation-1 col-md-8"
     ></v-data-table>
   </v-container>
 </template>
 <script>
 import axios from "axios";
-import { Tools } from "@/plugins/tools";
+import {Tools} from "@/plugins/tools";
 import qs from "qs";
 import AppBar from "@/components/AppBar";
 import {Base64} from "js-base64";
+
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
 

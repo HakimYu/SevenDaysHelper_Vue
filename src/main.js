@@ -3,11 +3,10 @@ import App from '@/App.vue'
 import router from '@/router'
 import vuetify from '@/plugins/vuetify'
 import VueCookies from "vue-cookies"
-import CoolLightBox from 'vue-cool-lightbox'
-import 'vue-cool-lightbox/dist/vue-cool-lightbox.min.css'
+import VueViewer from 'v-viewer'
 
-Vue.use(CoolLightBox)
 Vue.use(VueCookies)
+Vue.use(VueViewer)
 Vue.config.productionTip = false
 
 //router title setting

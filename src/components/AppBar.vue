@@ -53,7 +53,7 @@ export default {
       {
         title: "退出登录",
         icon: "mdi-logout",
-        action: "logout",
+        action: ()=>{this.logout()},
       },
     ],
   }),
