@@ -48,15 +48,18 @@
 <script>
 export default {
   name: "AppBar",
-  data: () => ({
-    menuItems: [
-      {
-        title: "退出登录",
-        icon: "mdi-logout",
-        action: ()=>{this.logout()},
-      },
-    ],
-  }),
+  data() {
+    let _this = this;
+    return {
+      menuItems: [
+        {
+          title: "退出登录",
+          icon: "mdi-logout",
+          action: function (){_this.logout()},
+        },
+      ],
+    }
+  },
   props: ["title", "backBtn", "homeBtn"],
   methods: {
     //logout
