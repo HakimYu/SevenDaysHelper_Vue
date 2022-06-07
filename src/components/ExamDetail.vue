@@ -37,8 +37,20 @@ export default {
       {
         text: "题号",
         align: "left",
-        sortable: true,
+        sortable: false,
         value: "TH",
+      },
+      {
+        text: "得分",
+        align: "left",
+        sortable: true,
+        value: "Score",
+      },
+      {
+        text: "满分",
+        align: "left",
+        sortable: true,
+        value: "totalScore",
       },
       {
         text: "我的答案",
@@ -47,23 +59,12 @@ export default {
         value: "Content",
       },
       {
-        text: "得分",
-        align: "left",
-        sortable: false,
-        value: "Score",
-      },
-      {
         text: "标准答案",
         align: "left",
         sortable: false,
         value: "trueAnswer",
       },
-      {
-        text: "满分",
-        align: "left",
-        sortable: true,
-        value: "totalScore",
-      },
+
     ]
   }),
   methods: {
