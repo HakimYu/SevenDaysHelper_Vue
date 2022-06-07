@@ -1,12 +1,11 @@
 <template>
   <v-container>
     <AppBar :back-btn="true" :home-btn="true" :title="$route.params.subject"></AppBar>
-    <div v-for="(item, index) in answerCardUrl" :key="index">
-      <v-img
-        lazy-src="https://img.wang.232232.xyz/img/2022/06/06/Snipaste_2022-06-06_22-07-57.png"
+    <div v-viewer v-for="(item, index) in answerCardUrl" :key="index">
+      <img
         :src="item"
+        onclick=""
       >
-      </v-img>
     </div>
     <v-data-table
       :headers="tableHeaders"
@@ -18,6 +17,8 @@
 </template>
 <script>
 import axios from "axios";
+import 'viewerjs/dist/viewer.css';
+import {directive as viewer} from "v-viewer";
 import {Tools} from "@/plugins/tools";
 import qs from "qs";
 import AppBar from "@/components/AppBar";
@@ -28,9 +29,13 @@ axios.defaults.headers.post["Content-Type"] =
 
 export default {
   name: "ExamDetail",
+  directives: {
+    viewer: viewer({debug: true}),
+  },
   components: {AppBar},
   data: () => ({
     answerCardUrl: [],
+    imgIndex: 0,
     subjectInfo: {},
     THs: [],
     tableHeaders: [

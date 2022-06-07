@@ -135,58 +135,6 @@ export default {
       this.$emit("loading");
       this.getUserInfo(this.getExams);
     },
-    // getUnClaimExamCount() {
-    //   let token = this.$cookies.get("token");
-    //   let userInfo = JSON.parse(Base64.decode(this.$cookies.get("userInfo")));
-    //   axios({
-    //     method: "GET",
-    //     url: this.getUrl("score", "/exam/getExamCount"),
-    //     headers: {
-    //       Version: "3.1.4",
-    //       token: token,
-    //     },
-    //     params: {
-    //       studentName: userInfo.studentName,
-    //       schoolGuid: userInfo.schoolGuid,
-    //     },
-    //   }).then((response) => {
-    //     if (response.data.status !== 200){
-    //       Tools.handleError(response.data.message);
-    //     }else if (response.data.data.unClaimCount > 0) {
-    //       let unClaimCount = response.data.data.unClaimCount;
-    //       this.unClaimCount = unClaimCount;
-    //       this.getUnClaimExams(userInfo, token);
-    //     }
-    //
-    //   })
-    // },
-    // getUnClaimExams(userInfo, token) {
-    //   axios({
-    //     method: "GET",
-    //     url: Tools.getUrl("score", "/exam/getUnClaimExams"),
-    //     params: {
-    //       studentName: userInfo.studentName,
-    //       schoolGuid: userInfo.schoolGuid,
-    //     },
-    //     headers: {
-    //       Version: "3.1.4",
-    //       token: token,
-    //     }
-    //   }).then((response) => {
-    //     if (response.data.status != 200){
-    //       Tools.handleError(response.data.message);
-    //     } else{
-    //       let unClaimExams = response.data.data;
-    //       let unClaimExamsList = [];
-    //       for(let i = 0; i < unClaimExams.length; ++i) {
-    //         unClaimExamsList.push({
-    //           examGuid: unClaimExams[i].examGuid,
-    //
-    //         })
-    //       }
-    //     }
-    //   })
-    // },
   },
   created() {
     if (!this.$cookies.isKey("token")) {

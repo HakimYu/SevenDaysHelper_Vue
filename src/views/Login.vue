@@ -210,7 +210,7 @@
 import axios from "axios";
 import qs from "qs";
 import { Tools } from "@/plugins/tools";
-
+import { TYPE } from "vue-toastification";
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
 let Base64 = require("js-base64").Base64;
@@ -269,12 +269,25 @@ export default {
               //login success
               this.$cookies.set("token", response.data.data.token, "1m");
               this.$router.push("/");
-              this.$emit("sMessage","登录成功");
+              this.$toast.success("登录成功!", {position: "bottom-center"});
             } else {
-              this.$emit("sMessage", response.data.message);
+              switch (response.data.status)
+              {
+                case 404:
+                  this.$toast("账号密码不能为空.", {type: TYPE.ERROR, position: "top-center"});
+                  break;
+                case 403:
+                  this.$toast(response.data.message, {type: TYPE.ERROR, position: "top-center"});
+                  break;
+                default:
+                  this.$toast.info("未知错误, 详见log.");
+                  console.log(response.data.message);
+                  break;
+              }
             }
           })
           .catch(function (error) {
+            this.$toast.info("未知错误, 详见log.");
             console.log(error);
           });
     },
@@ -295,6 +308,7 @@ export default {
             if (response.data.status === 200) {
               //send sms success
               this.smsToken = response.data.data.token;
+              this.$toast.info(response.data.message);
               this.countDown(61, (lefttime) => {
                 if (lefttime > 0) {
                   this.sendSmsBtnDisabled = true;
@@ -332,10 +346,10 @@ export default {
             if (response.data.status === 200) {
               //sms login success
               this.$cookies.set("token", response.data.data.token);
-              this.$emit("sMessage", "登录成功");
+              this.$toast.success("登录成功!", {position: "bottom-center"});
               this.$router.push("/");
             } else {
-              this.$emit("sMessage", response.data.message);
+              this.$toast(response.data.message, {type: TYPE.SUCCESS});
             }
           })
           .catch(function (error) {

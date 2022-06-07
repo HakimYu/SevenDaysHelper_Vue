@@ -19,6 +19,7 @@
     "vue-cookies": "^1.8.1",
     "vue-fragment": "^1.5.2",
     "vue-router": "^3.2.0",
+    "vue-toastification": "^1.7.14",
     "vuetify": "^2.4.0"
   },
   "devDependencies": {

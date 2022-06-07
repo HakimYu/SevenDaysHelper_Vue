@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <div>
+      <v-text-field v-model="superStudentCode"></v-text-field>
+      <v-btn @click="superExam"></v-btn>
+    </div>
+
     <AppBar :title="examName" :homeBtn="true" :back-btn="true"></AppBar>
     <v-col class="d-flex justify-center">
         <v-data-table
@@ -20,6 +25,7 @@ import AppBar from "@/components/AppBar";
 import {Base64} from "js-base64";
 import qs from "qs"
 import {Tools} from "@/plugins/tools";
+import {TYPE} from "vue-toastification";
 
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
@@ -30,6 +36,8 @@ export default {
   },
   data: () => ({
     examScore: [],
+    superStudentCode: undefined,
+    examInfo: {},
     examName: "",
     scoreStatus: 1,
     subjects: [],
@@ -61,9 +69,15 @@ export default {
     ],
   }),
   methods: {
+    superExam() {
+      this.$toast("实验性功能, 任何bug, 都是正常的.", {type: TYPE.WARNING});
+      this.examInfo.studentCode = this.superStudentCode;
+      this.examScore = [];
+      this.getScore();
+    },
     goToDetail(rowInfo, tableInfo) {
       if (tableInfo.index === 0) return;
-      let examInfo = JSON.parse(Base64.decode(sessionStorage.getItem("examData")))[this.$route.params.index];
+      let examInfo = this.examInfo;
       let userInfo = JSON.parse(Base64.decode(sessionStorage.getItem("userInfo")));
       let subjects = this.subjects[tableInfo.index];
       let subjectName = rowInfo.subjectName;
@@ -95,7 +109,7 @@ export default {
     },
     getScore() {
       let token = this.$cookies.get("token");
-      let examInfo = JSON.parse(Base64.decode(sessionStorage.getItem("examData")))[this.$route.params.index];
+      let examInfo = this.examInfo;
       this.examName = examInfo.examName;
 
       let userInfo = JSON.parse(Base64.decode(sessionStorage.getItem("userInfo")));
@@ -133,6 +147,7 @@ export default {
 
   },
   created() {
+    this.examInfo = JSON.parse(Base64.decode(sessionStorage.getItem("examData")))[this.$route.params.index];
     this.getScore();
   }
 }

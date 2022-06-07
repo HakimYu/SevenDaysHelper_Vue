@@ -9,7 +9,7 @@ class Tools{
                 break;
         }
     }
-    static handleError(error) {
+    static handleError(theVue, error) {
         switch (error) {
             default:// May I should do something there. :-)
         }
