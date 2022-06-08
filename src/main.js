@@ -3,6 +3,7 @@ import App from '@/App.vue'
 import router from '@/router'
 import vuetify from '@/plugins/vuetify'
 import VueCookies from "vue-cookies"
+import "viewerjs/dist/viewer.css";
 import VueViewer from 'v-viewer'
 import Toast from "vue-toastification";
 
@@ -24,8 +25,8 @@ const options = {
 };
 
 Vue.use(Toast, options);
-Vue.use(VueCookies)
-Vue.use(VueViewer)
+Vue.use(VueCookies);
+Vue.use(VueViewer);
 Vue.config.productionTip = false
 
 //router title setting
