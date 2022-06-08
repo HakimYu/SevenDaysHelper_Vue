@@ -2,10 +2,7 @@
   <v-container>
     <AppBar :back-btn="true" :home-btn="true" :title="$route.params.subject"></AppBar>
     <div v-viewer v-for="(item, index) in answerCardUrl" :key="index">
-      <img
-        :src="item"
-        onclick=""
-      >
+      <img :src="item">
     </div>
     <v-data-table
       :headers="tableHeaders"
