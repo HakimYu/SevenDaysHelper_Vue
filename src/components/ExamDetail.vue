@@ -14,7 +14,7 @@
 </template>
 <script>
 import axios from "axios";
-import 'viewerjs/dist/viewer.css';
+import "../../node_modules/viewerjs/dist/viewer.css";
 import {directive as viewer} from "v-viewer";
 import {Tools} from "@/plugins/tools";
 import qs from "qs";
