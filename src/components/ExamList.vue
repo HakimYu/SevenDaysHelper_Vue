@@ -74,7 +74,7 @@ export default {
             this.userInfo.grade = this.userInfo.period;
             sessionStorage.setItem(
                 "userInfo",
-                Base64.encode(JSON.stringify(response.data.data)),
+                Base64.encode(JSON.stringify(this.userInfo)),
             );
             callback();
           } else {
