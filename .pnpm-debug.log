@@ -3,12 +3,12 @@
     "selected": 1
   },
   "1 error pnpm": {
-    "code": "ERR_PNPM_NO_PKG_MANIFEST",
+    "code": "ERR_PNPM_NO_SCRIPT",
     "err": {
       "name": "pnpm",
-      "message": "No package.json found in C:\\Code\\SevenDaysHelper_Vue",
-      "code": "ERR_PNPM_NO_PKG_MANIFEST",
-      "stack": "pnpm: No package.json found in C:\\Code\\SevenDaysHelper_Vue\n    at handler (C:\\Users\\CaKEntity\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:121475:17)\n    at async C:\\Users\\CaKEntity\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:176441:21\n    at async run (C:\\Users\\CaKEntity\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:176415:34)\n    at async runPnpm (C:\\Users\\CaKEntity\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:176633:5)\n    at async C:\\Users\\CaKEntity\\AppData\\Roaming\\npm\\node_modules\\pnpm\\dist\\pnpm.cjs:176625:7"
+      "message": "Missing script: dev",
+      "code": "ERR_PNPM_NO_SCRIPT",
+      "stack": "pnpm: Missing script: dev\n    at Object.handler (C:\\Users\\CaKEntity\\AppData\\Local\\pnpm\\global\\5\\.pnpm\\pnpm@7.4.0\\node_modules\\pnpm\\dist\\pnpm.cjs:184465:15)\n    at async C:\\Users\\CaKEntity\\AppData\\Local\\pnpm\\global\\5\\.pnpm\\pnpm@7.4.0\\node_modules\\pnpm\\dist\\pnpm.cjs:192576:21\n    at async run (C:\\Users\\CaKEntity\\AppData\\Local\\pnpm\\global\\5\\.pnpm\\pnpm@7.4.0\\node_modules\\pnpm\\dist\\pnpm.cjs:192550:34)\n    at async runPnpm (C:\\Users\\CaKEntity\\AppData\\Local\\pnpm\\global\\5\\.pnpm\\pnpm@7.4.0\\node_modules\\pnpm\\dist\\pnpm.cjs:192768:5)\n    at async C:\\Users\\CaKEntity\\AppData\\Local\\pnpm\\global\\5\\.pnpm\\pnpm@7.4.0\\node_modules\\pnpm\\dist\\pnpm.cjs:192760:7"
     }
   }
 }

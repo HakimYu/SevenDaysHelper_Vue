@@ -67,6 +67,8 @@ export default {
       this.$cookies.remove("token");
       this.$cookies.remove("userInfo");
       this.$cookies.remove("examInfo");
+      sessionStorage.clear();
+      localStorage.clear();
       this.$router.push("/login");
     }
   }

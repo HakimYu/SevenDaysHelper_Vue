@@ -75,6 +75,7 @@ export default {
                 Base64.encode(JSON.stringify(response.data.data)),
             );
             this.userInfo = response.data.data;
+            this.userInfo.grade = this.userInfo.period;
 
             callback();
           } else {
@@ -144,7 +145,7 @@ export default {
     if (
       sessionStorage.getItem("userInfo") != null
       &&
-        sessionStorage.getItem("examData") != null
+      sessionStorage.getItem("examData") != null
     ) {
       this.userInfo = JSON.parse(Base64.decode(sessionStorage.getItem("userInfo")));
       this.examData = JSON.parse(Base64.decode(sessionStorage.getItem("examData")));
