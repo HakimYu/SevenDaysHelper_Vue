@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <div>
+    <!-- <div>
       <v-text-field v-model="superStudentCode"></v-text-field>
       <v-btn @click="superExam"></v-btn>
-    </div>
+    </div> -->
 
     <AppBar :title="examName" :homeBtn="true" :back-btn="true"></AppBar>
     <v-col class="d-flex justify-center">
@@ -69,12 +69,12 @@ export default {
     ],
   }),
   methods: {
-    superExam() {
-      this.$toast("实验性功能, 任何bug, 都是正常的.", {type: TYPE.WARNING});
-      this.examInfo.studentCode = this.superStudentCode;
-      this.examScore = [];
-      this.getScore();
-    },
+    // superExam() {
+    //   this.$toast("实验性功能, 任何bug, 都是正常的.", {type: TYPE.WARNING});
+    //   this.examInfo.studentCode = this.superStudentCode;
+    //   this.examScore = [];
+    //   this.getScore();
+    // },
     goToDetail(rowInfo, tableInfo) {
       if (tableInfo.index === 0) return;
       let examInfo = this.examInfo;
