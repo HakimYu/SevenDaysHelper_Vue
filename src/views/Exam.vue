@@ -25,7 +25,6 @@ import AppBar from "@/components/AppBar";
 import {Base64} from "js-base64";
 import qs from "qs"
 import {Tools} from "@/plugins/tools";
-import {TYPE} from "vue-toastification";
 
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded";
@@ -36,7 +35,6 @@ export default {
   },
   data: () => ({
     examScore: [],
-    superStudentCode: undefined,
     examInfo: {},
     examName: "",
     scoreStatus: 1,
