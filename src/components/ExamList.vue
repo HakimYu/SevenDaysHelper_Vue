@@ -70,13 +70,12 @@ export default {
           },
         }).then((response) => {
           if (response.data.status === 200) {
+            this.userInfo = response.data.data;
+            this.userInfo.grade = this.userInfo.period;
             sessionStorage.setItem(
                 "userInfo",
                 Base64.encode(JSON.stringify(response.data.data)),
             );
-            this.userInfo = response.data.data;
-            this.userInfo.grade = this.userInfo.period;
-
             callback();
           } else {
             this.$emit("sMessage", response.data.message);
